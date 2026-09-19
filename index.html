@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Money Printer Turbo · Savings &amp; Investment Calculator (UK · US · Canada)</title>
+  <meta name="description" content="Free savings and investment calculator for the UK, US, and Canada. Work out savings goals, compound interest, and dividend income with real market rates.">
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="https://jammysmith844.github.io/money-printer-turbo/" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Money Printer Turbo · Savings &amp; Investment Calculator">
+  <meta property="og:description" content="Work out savings goals, compound interest, and dividend income with real UK, US, and Canadian market rates.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jammysmith844.github.io/money-printer-turbo/">
+  <meta property="og:image" content="https://jammysmith844.github.io/money-printer-turbo/og-money-printer.png">
+  <meta property="og:image:alt" content="Money Printer Turbo savings and investment calculator interface">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Money Printer Turbo · Savings &amp; Investment Calculator">
+  <meta name="twitter:description" content="Work out savings goals, compound interest, and dividend income with real UK, US, and Canadian market rates.">
+  <meta name="twitter:image" content="https://jammysmith844.github.io/money-printer-turbo/og-money-printer.png">
+  
+  <!-- Favicon (inline SVG) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2310b981'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='system-ui, sans-serif' font-weight='bold'%3E%24%3C/text%3E%3C/svg%3E">
+  
+  <!-- CSS (inline for performance) -->
+  <style>
+    /* ---------- RESET & BASE ---------- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-alt: #f1f5f9;
+      --border: #e2e8f0;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --primary: #10b981;
+      --primary-hover: #059669;
+      --primary-focus: #a7f3d0;
+      --primary-light: #ecfdf5;
+      --accent: #0ea5e9;
+      --accent-hover: #0284c7;
+      --accent-light: #f0f9ff;
+      --error: #b91c1c;
+      --error-bg: #fef2f2;
+      --success: #15803d;
+      --success-bg: #f0fdf4;
+      --warn: #d97706;
+      --warn-bg: #fffbeb;
+      --radius-sm: 6px;
+      --radius: 12px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.03);
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+      --transition: 150ms ease;
+      --max-width: 960px;
+    }
+
+    html {
+      font-size: 100%;
+      -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+    }
+
+    /* ---------- TYPOGRAPHY ---------- */
+    h1, h2, h3 {
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--text-primary);
+    }
+
+    h1 {
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    h3 {
+      font-size: 1.125rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color var(--transition);
+    }
+    a:hover {
+      color: var(--primary-hover);
+      text-decoration: underline;
+    }
+
+    /* ---------- LAYOUT ---------- */
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* Header */
+    .site-header {
+      background-color: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+      background-color: rgba(255, 255, 255, 0.92);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    .logo:hover {
+      text-decoration: none;
+      color: var(--primary);
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      background-color: var(--primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      font-size: 0.9375rem;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      font-weight: 500;
+      text-decoration: none;
+      padding: 0.25rem 0;
+      border-bottom: 2px solid transparent;
+      transition: border-color var(--transition), color var(--transition);
+    }
+    .nav-links a:hover {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      text-decoration: none;
+    }
+
+    @media (max-width: 640px) {
+      .nav-links {
+        gap: 1rem;
+      }
+      .nav-links a {
+        font-size: 0.875rem;
+      }
+      h1 {
+        font-size: 1.65rem;
+      }
+    }
+
+    /* Ad banner container (between header and main) */
+    .ad-banner {
+      background: #f1f5f9;
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 260px;
+      overflow: hidden;
+    }
+
+    .ad-banner .ad-inner {
+      width: 100%;
+      max-width: 300px;
+      min-height: 250px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    /* Main content */
+    main {
+      flex: 1;
+      padding: 2rem 0 3rem;
+    }
+
+    /* ---------- CALCULATOR CARD ---------- */
+    .calc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 2rem;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .calc-card:focus-within {
+      border-color: var(--primary-focus);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      font-family: var(--font-sans);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      padding: 0.7rem 1rem;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -1px;
+      transition: color var(--transition), border-color var(--transition);
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      font-weight: 600;
+    }
+
+    .tab-btn:focus-visible {
+      outline: 2px solid var(--primary-focus);
+      outline-offset: -2px;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn 180ms ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Form */
+    .form-group {
+      margin-bottom: 1.1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: var(--text-secondary);
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      font-size: 1rem;
+      font-family: var(--font-sans);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--text-primary);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-focus);
+    }
+
+    .input-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .input-with-prefix {
+      position: relative;
+    }
+    .input-with-prefix::before {
+      content: attr(data-prefix);
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-weight: 500;
+      pointer-events: none;
+    }
+    .input-with-prefix input {
+      padding-left: 1.7rem;
+    }
+
+    .options-row {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 540px) {
+      .options-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Results */
+    .results-panel {
+      margin-top: 1.75rem;
+      padding-top: 1.5rem;
+      border-top: 2px dashed var(--border);
+    }
+
+    .results-headline {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .results-headline .label {
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .results-headline .amount {
+      font-family: var(--font-mono);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.1;
+      word-break: break-all;
+    }
+
+    .results-headline .sub {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      margin-top: 0.35rem;
+    }
+
+    .results-grid {
+      display: grid;
+      gap: 0.75rem;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 540px) {
+      .results-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .result-item {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.9rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .result-item .label {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .result-item .value {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      word-break: break-all;
+    }
+
+    .result-item.highlight {
+      background: var(--primary-light);
+      border-color: var(--primary-focus);
+    }
+    .result-item.highlight .value {
+      color: var(--primary);
+    }
+
+    .result-item .sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.1rem;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.65rem 1.25rem;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      font-family: var(--font-sans);
+      line-height: 1.2;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background-color var(--transition), border-color var(--transition), color var(--transition), transform var(--transition);
+      text-decoration: none;
+      background-color: transparent;
+      color: var(--text-secondary);
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      border-color: var(--primary-hover);
+      color: white;
+      text-decoration: none;
+    }
+    .btn-primary:focus-visible {
+      outline: 2px solid var(--primary-focus);
+      outline-offset: 2px;
+    }
+
+    .btn-secondary {
+      border-color: var(--border);
+      background-color: var(--surface);
+      color: var(--text-secondary);
+    }
+    .btn-secondary:hover {
+      background-color: #f1f5f9;
+      border-color: #cbd5e1;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    .btn-secondary:focus-visible {
+      outline: 2px solid var(--primary-focus);
+      outline-offset: 2px;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    /* Status */
+    .status-msg {
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      font-size: 0.9375rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .status-msg.error {
+      background: var(--error-bg);
+      color: var(--error);
+    }
+
+    .status-msg.warn {
+      background: var(--warn-bg);
+      color: var(--warn);
+    }
+
+    .status-msg.info {
+      background: var(--accent-light);
+      color: var(--accent-hover);
+    }
+
+    /* Info sections */
+    .info-section {
+      margin: 3rem 0 2rem;
+    }
+
+    .info-section h2 {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    .info-section h3 {
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-section ul, .info-section ol {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
+    }
+    .info-section li {
+      margin-bottom: 0.4rem;
+    }
+
+    /* Rate reference table */
+    .rate-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.9375rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .rate-table th, .rate-table td {
+      padding: 0.65rem 0.9rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .rate-table th {
+      background: var(--surface-alt);
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .rate-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .rate-table td {
+      color: var(--text-secondary);
+    }
+
+    .rate-table .rate-value {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* FAQ */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+
+    details {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.5rem 1rem;
+      transition: border-color var(--transition);
+    }
+    details[open] {
+      border-color: var(--primary-focus);
+    }
+    summary {
+      font-weight: 500;
+      cursor: pointer;
+      padding: 0.5rem 0;
+      color: var(--text-primary);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    summary::-webkit-details-marker {
+      display: none;
+    }
+    summary::after {
+      content: "+";
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      transition: transform var(--transition);
+    }
+    details[open] summary::after {
+      transform: rotate(45deg);
+    }
+    details p {
+      padding: 0 0 0.75rem 0;
+      margin: 0;
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+    }
+
+    /* Footer */
+    .site-footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      margin-top: auto;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem 2rem;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.8125rem;
+    }
+
+    @media (min-width: 640px) {
+      .footer-inner {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    /* Utilities */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    /* small screens */
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 1rem;
+      }
+      .calc-card {
+        padding: 1.25rem 1rem;
+      }
+      .results-headline .amount {
+        font-size: 2rem;
+      }
+      .btn {
+        width: 100%;
+      }
+      .btn-group {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .tabs {
+        gap: 0;
+      }
+      .tab-btn {
+        flex: 1 1 auto;
+        font-size: 0.8125rem;
+        padding: 0.6rem 0.5rem;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo" aria-label="Money Printer Turbo home">
+        <span class="logo-mark" aria-hidden="true">$</span>
+        <span>Money Printer Turbo</span>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#calculator">Calculator</a>
+        <a href="#rates">Rates</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Ad banner (between header and main) -->
+  <div class="ad-banner" aria-hidden="true">
+    <div class="ad-inner">
+      <script>
+        atOptions = {
+          'key' : '326e7a00ed2468a9c37eb9565b13e0bd',
+          'format' : 'iframe',
+          'height' : 250,
+          'width' : 300,
+          'params' : {}
+        };
+      </script>
+      <script src="https://www.highrevenueformat.com/326e7a00ed2468a9c37eb9565b13e0bd/invoke.js"></script>
+    </div>
+  </div>
+
+  <main id="main-content">
+    <div class="container">
+      <!-- H1 & intro -->
+      <h1>Savings &amp; investment calculator</h1>
+      <p style="max-width: 65ch; margin-bottom: 1.75rem;">
+        Three honest calculators for UK, US, and Canadian savers. Work out how long to reach a savings goal, how compound interest grows your money, and what dividend income a portfolio could produce.
+      </p>
+
+      <!-- ---------- CALCULATOR ---------- -->
+      <section id="calculator" class="calc-card" aria-label="Savings and investment calculators">
+        <!-- Tabs -->
+        <div class="tabs" role="tablist" aria-label="Calculator type">
+          <button type="button" class="tab-btn active" role="tab" id="tab-goal" aria-selected="true" aria-controls="panel-goal" data-tab="goal">
+            Savings goal
+          </button>
+          <button type="button" class="tab-btn" role="tab" id="tab-compound" aria-selected="false" aria-controls="panel-compound" data-tab="compound">
+            Compound interest
+          </button>
+          <button type="button" class="tab-btn" role="tab" id="tab-dividend" aria-selected="false" aria-controls="panel-dividend" data-tab="dividend">
+            Dividend income
+          </button>
+        </div>
+
+        <!-- ===== Panel 1: Savings goal ===== -->
+        <div class="tab-panel active" role="tabpanel" id="panel-goal" aria-labelledby="tab-goal">
+          <form id="form-goal" novalidate>
+            <div class="options-row">
+              <div class="form-group">
+                <label for="goal-currency">Currency</label>
+                <select id="goal-currency" name="goal-currency">
+                  <option value="GBP" selected>GBP (£) — UK</option>
+                  <option value="USD">USD ($) — US</option>
+                  <option value="CAD">CAD (C$) — Canada</option>
+                  <option value="EUR">EUR (€) — Europe</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="goal-target">Savings goal</label>
+                <div class="input-with-prefix" data-prefix="£" id="goal-target-prefix">
+                  <input type="number" id="goal-target" name="goal-target" placeholder="e.g. 20000" step="any" min="0" inputmode="decimal" autocomplete="off">
+                </div>
+              </div>
+            </div>
+
+            <div class="options-row">
+              <div class="form-group">
+                <label for="goal-start">Starting balance (optional)</label>
+                <div class="input-with-prefix" data-prefix="£" id="goal-start-prefix">
+                  <input type="number" id="goal-start" name="goal-start" placeholder="0" step="any" min="0" inputmode="decimal" autocomplete="off" value="0">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="goal-monthly">Monthly deposit</label>
+                <div class="input-with-prefix" data-prefix="£" id="goal-monthly-prefix">
+                  <input type="number" id="goal-monthly" name="goal-monthly" placeholder="e.g. 200" step="any" min="0" inputmode="decimal" autocomplete="off">
+                </div>
+              </div>
+            </div>
+
+            <div class="options-row">
+              <div class="form-group">
+                <label for="goal-rate">Annual interest rate (AER / APY)</label>
+                <input type="number" id="goal-rate" name="goal-rate" placeholder="e.g. 4.5" step="any" min="0" max="30" inputmode="decimal" autocomplete="off" value="4.5">
+                <div class="input-hint">UK easy-access savings currently sit around 4.0–4.75% AER.</div>
+              </div>
+              <div class="form-group">
+                <label for="goal-years">Years to save</label>
+                <input type="number" id="goal-years" name="goal-years" placeholder="e.g. 5" step="any" min="0" max="60" inputmode="decimal" autocomplete="off">
+              </div>
+            </div>
+
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary">Calculate</button>
+              <button type="button" class="btn btn-secondary" data-reset="goal">Reset</button>
+            </div>
+          </form>
+
+          <div id="status-goal" aria-live="polite"></div>
+
+          <div class="results-panel" id="results-goal" hidden>
+            <div class="results-headline">
+              <div class="label">Total saved after period</div>
+              <div class="amount" id="goal-final">—</div>
+              <div class="sub" id="goal-final-sub">—</div>
+            </div>
+
+            <div class="results-grid">
+              <div class="result-item">
+                <span class="label">You will deposit</span>
+                <span class="value" id="goal-contributed">—</span>
+                <span class="sub">sum of all monthly deposits</span>
+              </div>
+              <div class="result-item highlight">
+                <span class="label">Interest earned</span>
+                <span class="value" id="goal-interest">—</span>
+                <span class="sub">compounded monthly</span>
+              </div>
+              <div class="result-item">
+                <span class="label">Goal reached?</span>
+                <span class="value" id="goal-reached">—</span>
+                <span class="sub" id="goal-reached-sub">—</span>
+              </div>
+              <div class="result-item">
+                <span class="label">Months to goal</span>
+                <span class="value" id="goal-months">—</span>
+                <span class="sub">at this deposit rate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== Panel 2: Compound interest ===== -->
+        <div class="tab-panel" role="tabpanel" id="panel-compound" aria-labelledby="tab-compound">
+          <form id="form-compound" novalidate>
+            <div class="options-row">
+              <div class="form-group">
+                <label for="comp-currency">Currency</label>
+                <select id="comp-currency" name="comp-currency">
+                  <option value="GBP" selected>GBP (£) — UK</option>
+                  <option value="USD">USD ($) — US</option>
+                  <option value="CAD">CAD (C$) — Canada</option>
+                  <option value="EUR">EUR (€) — Europe</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="comp-initial">Initial investment</label>
+                <div class="input-with-prefix" data-prefix="£" id="comp-initial-prefix">
+                  <input type="number" id="comp-initial" name="comp-initial" placeholder="e.g. 5000" step="any" min="0" inputmode="decimal" autocomplete="off">
+                </div>
+              </div>
+            </div>
+
+            <div class="options-row">
+              <div class="form-group">
+                <label for="comp-monthly">Monthly contribution</label>
+                <div class="input-with-prefix" data-prefix="£" id="comp-monthly-prefix">
+                  <input type="number" id="comp-monthly" name="comp-monthly" placeholder="e.g. 300" step="any" min="0" inputmode="decimal" autocomplete="off">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="comp-years">Years invested</label>
+                <input type="number" id="comp-years" name="comp-years" placeholder="e.g. 20" step="any" min="0" max="60" inputmode="decimal" autocomplete="off">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="comp-rate">Expected annual return</label>
+              <input type="number" id="comp-rate" name="comp-rate" placeholder="e.g. 7" step="any" min="0" max="30" inputmode="decimal" autocomplete="off" value="7">
+              <div class="input-hint">Historically, a diversified global equity index has returned 6–8% per year before inflation. Past performance does not guarantee future results.</div>
+            </div>
+
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary">Calculate</button>
+              <button type="button" class="btn btn-secondary" data-reset="compound">Reset</button>
+            </div>
+          </form>
+
+          <div id="status-compound" aria-live="polite"></div>
+
+          <div class="results-panel" id="results-compound" hidden>
+            <div class="results-headline">
+              <div class="label">Final value</div>
+              <div class="amount" id="comp-final">—</div>
+              <div class="sub" id="comp-final-sub">—</div>
+            </div>
+
+            <div class="results-grid">
+              <div class="result-item">
+                <span class="label">Total contributed</span>
+                <span class="value" id="comp-contributed">—</span>
+                <span class="sub">initial + all monthly deposits</span>
+              </div>
+              <div class="result-item highlight">
+                <span class="label">Interest earned</span>
+                <span class="value" id="comp-interest">—</span>
+                <span class="sub">growth from compounding</span>
+              </div>
+              <div class="result-item">
+                <span class="label">Growth multiple</span>
+                <span class="value" id="comp-multiple">—</span>
+                <span class="sub">final value ÷ contributed</span>
+              </div>
+              <div class="result-item">
+                <span class="label">Effective annual return</span>
+                <span class="value" id="comp-effective">—</span>
+                <span class="sub">with monthly compounding</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== Panel 3: Dividend income ===== -->
+        <div class="tab-panel" role="tabpanel" id="panel-dividend" aria-labelledby="tab-dividend">
+          <form id="form-dividend" novalidate>
+            <div class="options-row">
+              <div class="form-group">
+                <label for="div-currency">Currency</label>
+                <select id="div-currency" name="div-currency">
+                  <option value="CAD" selected>CAD (C$) — Canada</option>
+                  <option value="GBP">GBP (£) — UK</option>
+                  <option value="USD">USD ($) — US</option>
+                  <option value="EUR">EUR (€) — Europe</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="div-investment">Investment amount</label>
+                <div class="input-with-prefix" data-prefix="C$" id="div-investment-prefix">
+                  <input type="number" id="div-investment" name="div-investment" placeholder="e.g. 25000" step="any" min="0" inputmode="decimal" autocomplete="off">
+                </div>
+              </div>
+            </div>
+
+            <div class="options-row">
+              <div class="form-group">
+                <label for="div-yield">Dividend yield (%)</label>
+                <input type="number" id="div-yield" name="div-yield" placeholder="e.g. 4.3" step="any" min="0" max="20" inputmode="decimal" autocomplete="off" value="4.3">
+                <div class="input-hint">Canadian bank stocks currently yield around 4–5%. REITs can yield 6–7%.</div>
+              </div>
+              <div class="form-group">
+                <label for="div-growth">Annual dividend growth (%)</label>
+                <input type="number" id="div-growth" name="div-growth" placeholder="e.g. 3" step="any" min="0" max="20" inputmode="decimal" autocomplete="off" value="3">
+                <div class="input-hint">Many established dividend payers raise payouts 2–5% per year.</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="div-years">Years to project (optional)</label>
+              <input type="number" id="div-years" name="div-years" placeholder="e.g. 10" step="any" min="0" max="50" inputmode="decimal" autocomplete="off" value="10">
+              <div class="input-hint">Shows how income grows if the dividend increases each year.</div>
+            </div>
+
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary">Calculate</button>
+              <button type="button" class="btn btn-secondary" data-reset="dividend">Reset</button>
+            </div>
+          </form>
+
+          <div id="status-dividend" aria-live="polite"></div>
+
+          <div class="results-panel" id="results-dividend" hidden>
+            <div class="results-headline">
+              <div class="label">Annual dividend income (year 1)</div>
+              <div class="amount" id="div-annual">—</div>
+              <div class="sub" id="div-annual-sub">—</div>
+            </div>
+
+            <div class="results-grid">
+              <div class="result-item">
+                <span class="label">Monthly average</span>
+                <span class="value" id="div-monthly">—</span>
+                <span class="sub">year 1 ÷ 12</span>
+              </div>
+              <div class="result-item">
+                <span class="label">Quarterly average</span>
+                <span class="value" id="div-quarterly">—</span>
+                <span class="sub">year 1 ÷ 4</span>
+              </div>
+              <div class="result-item highlight">
+                <span class="label">Annual income after growth period</span>
+                <span class="value" id="div-future">—</span>
+                <span class="sub" id="div-future-sub">—</span>
+              </div>
+              <div class="result-item">
+                <span class="label">Total dividends over period</span>
+                <span class="value" id="div-total">—</span>
+                <span class="sub">sum of all yearly payouts</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- RATES ---------- -->
+      <section class="info-section" id="rates">
+        <h2>Reference rates (as of 2025)</h2>
+        <p>The calculator does not look up live rates. Use these reference figures as starting points, then enter your own numbers based on the product you actually hold or are considering.</p>
+
+        <table class="rate-table">
+          <caption class="visually-hidden">Reference savings and investment rates for the UK, US, and Canada</caption>
+          <thead>
+            <tr>
+              <th scope="col">Country</th>
+              <th scope="col">Product</th>
+              <th scope="col">Typical rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>UK</td>
+              <td>Easy-access savings</td>
+              <td class="rate-value">4.00 – 4.75% AER</td>
+            </tr>
+            <tr>
+              <td>UK</td>
+              <td>1-year fixed bond</td>
+              <td class="rate-value">4.50 – 5.25% AER</td>
+            </tr>
+            <tr>
+              <td>UK</td>
+              <td>Cash ISA</td>
+              <td class="rate-value">4.00 – 4.75% AER</td>
+            </tr>
+            <tr>
+              <td>US</td>
+              <td>High-yield savings</td>
+              <td class="rate-value">4.00 – 5.00% APY</td>
+            </tr>
+            <tr>
+              <td>US</td>
+              <td>12-month CD</td>
+              <td class="rate-value">4.00 – 5.00% APY</td>
+            </tr>
+            <tr>
+              <td>Canada</td>
+              <td>High-interest savings</td>
+              <td class="rate-value">3.00 – 4.50%</td>
+            </tr>
+            <tr>
+              <td>Canada</td>
+              <td>Big-5 bank dividend stocks</td>
+              <td class="rate-value">4.00 – 4.50% yield</td>
+            </tr>
+            <tr>
+              <td>Canada</td>
+              <td>REITs (e.g. residential)</td>
+              <td class="rate-value">5.50 – 6.70% yield</td>
+            </tr>
+            <tr>
+              <td>Global</td>
+              <td>Diversified equity index (long-term)</td>
+              <td class="rate-value">6.00 – 8.00% avg. annual</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p style="font-size: 0.8125rem; color: var(--text-muted);">
+          Rates change frequently. Always verify current rates with your bank or broker before making a decision.
+        </p>
+      </section>
+
+      <!-- ---------- HOW IT WORKS ---------- -->
+      <section class="info-section" id="how">
+        <h2>How each calculator works</h2>
+
+        <h3>1. Savings goal</h3>
+        <p>Answers: <em>"How long until I reach my target?"</em> It compounds your starting balance monthly at the rate you enter, adds your monthly deposit, and tells you when the balance crosses the target. If the target is never reached within the period you enter, the monthly result tells you how much longer it would take at the same deposit.</p>
+
+        <h3>2. Compound interest</h3>
+        <p>Answers: <em>"What will my investment be worth in X years?"</em> It uses the standard compound interest formula with monthly compounding:</p>
+        <p style="font-family: var(--font-mono); font-size: 0.875rem; background: var(--surface-alt); padding: 0.75rem 1rem; border-radius: var(--radius-sm); overflow-x: auto;">
+          FV = P × (1 + r/12)<sup>n</sup> + PMT × [ ((1 + r/12)<sup>n</sup> − 1) ÷ (r/12) ]
+        </p>
+        <p>Where <strong>P</strong> is your starting amount, <strong>PMT</strong> is your monthly deposit, <strong>r</strong> is the annual rate, and <strong>n</strong> is the number of months.</p>
+
+        <h3>3. Dividend income</h3>
+        <p>Answers: <em>"How much passive income could this portfolio pay?"</em> Year 1 income is simply investment × yield. If you enter a dividend growth rate, the calculator projects each subsequent year's payout growing at that rate, and sums the total across the period.</p>
+      </section>
+
+      <!-- ---------- EXAMPLES ---------- -->
+      <section class="info-section" id="examples">
+        <h2>Worked examples</h2>
+
+        <h3>UK saver: £20,000 house deposit</h3>
+        <p>Starting from £0, depositing £400/month at 4.5% AER. You reach £20,000 in about 46 months (3 years 10 months), having deposited £18,400 and earned roughly £1,600 in interest.</p>
+
+        <h3>US investor: 30-year retirement pot</h3>
+        <p>$500/month for 30 years at 7% annual return. Total contributed: $180,000. Final value: roughly $610,000. The compounding accounts for about $430,000 of the final amount.</p>
+
+        <h3>Canadian dividend portfolio: $25,000 in bank stocks</h3>
+        <p>$25,000 at a 4.3% yield produces $1,075 in year 1 — about $90 per month. With 3% annual dividend growth, the payout reaches roughly $1,445 by year 10, and total dividends collected over the decade come to about $12,300.</p>
+      </section>
+
+      <!-- ---------- TIPS ---------- -->
+      <section class="info-section" id="tips">
+        <h2>Good to know</h2>
+        <ul>
+          <li><strong>Rates change.</strong> The figures in the reference table reflect typical 2025 rates. Always confirm with your bank or broker before acting.</li>
+          <li><strong>Inflation matters.</strong> A 4.5% savings rate with 3% inflation gives a real return of about 1.5%. The calculator shows nominal values only.</li>
+          <li><strong>Tax is not included.</strong> UK Personal Savings Allowance, US federal tax on interest, and Canadian dividend tax credits all affect your net return. Talk to a tax professional.</li>
+          <li><strong>Dividends are not guaranteed.</strong> Companies can cut or suspend payouts during downturns. The growth rate you enter is an assumption, not a promise.</li>
+          <li><strong>Compound interest cuts both ways.</strong> Investing early matters more than investing large. A 25-year-old saving £200/month usually ends up with more than a 45-year-old saving £500/month.</li>
+          <li><strong>Use real numbers for your situation.</strong> The defaults are starting points, not recommendations.</li>
+        </ul>
+      </section>
+
+      <!-- ---------- FAQ ---------- -->
+      <section class="info-section" id="faq">
+        <h2>Frequently asked questions</h2>
+        <div class="faq-list">
+          <details>
+            <summary>Are the interest rates in the table current?</summary>
+            <p>They reflect typical rates from 2025. Savings rates move with central bank policy — the Bank of England, Federal Reserve, and Bank of Canada all adjust their base rates periodically. Always check your bank's current published rate before committing.</p>
+          </details>
+          <details>
+            <summary>Does the calculator include tax?</summary>
+            <p>No. All figures are pre-tax. UK taxpayers can earn up to £1,000 in savings interest tax-free (Personal Savings Allowance for basic-rate payers), and Cash ISAs are fully tax-free. US and Canadian rules differ. For accurate net figures, speak to a tax adviser.</p>
+          </details>
+          <details>
+            <summary>Why does compound interest take so long to show results?</summary>
+            <p>Compounding is exponential, so the early years feel slow and the later years feel fast. A 30-year investment typically earns more in the last five years than in the first fifteen. This is why starting early matters so much.</p>
+          </details>
+          <details>
+            <summary>Is a 7% return realistic?</summary>
+            <p>Historically, a globally diversified equity index has returned roughly 6–8% per year before inflation, over long periods. In any single year, returns can be much higher or much lower. Past performance does not guarantee future results, and investing carries risk of loss.</p>
+          </details>
+          <details>
+            <summary>What is the difference between AER and APY?</summary>
+            <p>They are the same concept with different names. AER (Annual Equivalent Rate) is used in the UK; APY (Annual Percentage Yield) is used in the US. Both express the effective annual rate including compounding.</p>
+          </details>
+          <details>
+            <summary>Does the dividend calculator account for dividend cuts?</summary>
+            <p>No. It assumes dividends grow steadily. In reality, companies can and do reduce or suspend dividends during recessions or sector downturns. Treat the projection as a best-case illustration, not a forecast.</p>
+          </details>
+          <details>
+            <summary>Does this site store my inputs?</summary>
+            <p>No. Everything runs in your browser. Nothing is sent to a server, no cookies are set, and closing the tab clears everything.</p>
+          </details>
+        </div>
+      </section>
+
+      <!-- ---------- LIMITATIONS ---------- -->
+      <section class="info-section" id="limitations">
+        <h2>Limitations</h2>
+        <ul>
+          <li>The calculators produce estimates, not guarantees. Actual returns will differ.</li>
+          <li>No tax, fees, or platform charges are included. Fund management fees of 0.2–1.0% per year can meaningfully reduce long-term outcomes.</li>
+          <li>Inflation is not modelled. A £100,000 pot in 20 years will not buy what £100,000 buys today.</li>
+          <li>The compound interest calculator assumes a constant rate every year. Real markets fluctuate.</li>
+          <li>Dividend projections assume consistent yield and steady growth — neither is guaranteed.</li>
+          <li>The savings goal calculator does not account for rate changes over the savings period.</li>
+          <li>This tool does not recommend specific products, banks, or brokers. For personal financial advice, consult a regulated adviser.</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <!-- ---------- FOOTER ---------- -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-links">
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+      </div>
+      <div class="footer-copy">
+        © 2025 Money Printer Turbo. All calculations run in your browser. Not financial advice.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ---------- JAVASCRIPT ---------- -->
+  <script>
+    (function() {
+      "use strict";
+
+      // ----- Currency helpers -----
+      var CURRENCY_SYMBOLS = {
+        GBP: "£",
+        USD: "$",
+        CAD: "C$",
+        EUR: "€"
+      };
+
+      function getSymbol(selectEl) {
+        return CURRENCY_SYMBOLS[selectEl.value] || "$";
+      }
+
+      function formatMoney(value, symbol) {
+        if (!isFinite(value)) return "—";
+        var abs = Math.abs(value);
+        var formatted;
+        if (abs >= 1000000) {
+          formatted = (value / 1000000).toFixed(2) + "M";
+        } else if (abs >= 10000) {
+          formatted = value.toLocaleString(undefined, { maximumFractionDigits: 0 });
+        } else {
+          formatted = value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+        return symbol + formatted;
+      }
+
+      function formatNumber(value, decimals) {
+        if (!isFinite(value)) return "—";
+        if (decimals === undefined) decimals = 2;
+        return value.toLocaleString(undefined, {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: decimals
+        });
+      }
+
+      function parseInput(el) {
+        var v = el.value.trim();
+        if (v === "") return NaN;
+        var n = Number(v);
+        return isNaN(n) ? NaN : n;
+      }
+
+      function showStatus(containerId, message, type) {
+        var el = document.getElementById(containerId);
+        if (!el) return;
+        el.innerHTML = '<div class="status-msg ' + (type || "info") + '" role="alert">' + message + '</div>';
+      }
+
+      function clearStatus(containerId) {
+        var el = document.getElementById(containerId);
+        if (el) el.innerHTML = "";
+      }
+
+      // ----- Update prefix symbols when currency changes -----
+      function bindPrefix(selectId, prefixTargets) {
+        var select = document.getElementById(selectId);
+        if (!select) return;
+        function update() {
+          var symbol = getSymbol(select);
+          prefixTargets.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) el.setAttribute("data-prefix", symbol);
+          });
+        }
+        select.addEventListener("change", function() {
+          update();
+          // Re-run calculation if results are visible
+          var formMap = {
+            "goal-currency": "form-goal",
+            "comp-currency": "form-compound",
+            "div-currency": "form-dividend"
+          };
+          var formId = formMap[selectId];
+          if (formId) {
+            var form = document.getElementById(formId);
+            if (form && !form.closest(".tab-panel").querySelector(".results-panel[hidden]")) {
+              form.dispatchEvent(new Event("submit"));
+            }
+          }
+        });
+        update();
+      }
+
+      // ----- Tab switching -----
+      var tabButtons = document.querySelectorAll(".tab-btn");
+      tabButtons.forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          var target = this.getAttribute("data-tab");
+          tabButtons.forEach(function(b) {
+            b.classList.remove("active");
+            b.setAttribute("aria-selected", "false");
+          });
+          this.classList.add("active");
+          this.setAttribute("aria-selected", "true");
+
+          document.querySelectorAll(".tab-panel").forEach(function(p) {
+            p.classList.remove("active");
+          });
+          var panel = document.getElementById("panel-" + target);
+          if (panel) panel.classList.add("active");
+        });
+      });
+
+      /* ====================================================
+         TAB 1: SAVINGS GOAL
+         ==================================================== */
+      var formGoal = document.getElementById("form-goal");
+
+      bindPrefix("goal-currency", [
+        "goal-target-prefix",
+        "goal-start-prefix",
+        "goal-monthly-prefix"
+      ]);
+
+      formGoal.addEventListener("submit", function(e) {
+        e.preventDefault();
+        clearStatus("status-goal");
+
+        var currencySelect = document.getElementById("goal-currency");
+        var symbol = getSymbol(currencySelect);
+
+        var target = parseInput(document.getElementById("goal-target"));
+        var start = parseInput(document.getElementById("goal-start"));
+        var monthly = parseInput(document.getElementById("goal-monthly"));
+        var ratePct = parseInput(document.getElementById("goal-rate"));
+        var years = parseInput(document.getElementById("goal-years"));
+
+        if (isNaN(start)) start = 0;
+        if (isNaN(ratePct)) ratePct = 0;
+
+        // Validation
+        if (isNaN(target) || target <= 0) {
+          showStatus("status-goal", "Please enter a savings goal greater than zero.", "error");
+          return;
+        }
+        if (isNaN(monthly) || monthly < 0) {
+          showStatus("status-goal", "Please enter a valid monthly deposit (0 or more).", "error");
+          return;
+        }
+        if (isNaN(years) || years <= 0) {
+          showStatus("status-goal", "Please enter a number of years greater than zero.", "error");
+          return;
+        }
+        if (monthly === 0 && start === 0) {
+          showStatus("status-goal", "Enter a starting balance or a monthly deposit.", "warn");
+          return;
+        }
+        if (ratePct < 0 || ratePct > 30) {
+          showStatus("status-goal", "Interest rate must be between 0 and 30%.", "error");
+          return;
+        }
+
+        var months = Math.round(years * 12);
+        var monthlyRate = ratePct / 100 / 12;
+        var balance = start;
+        var totalContributed = start;
+        var monthsToGoal = -1;
+        var monthlyDeposit = monthly;
+
+        for (var m = 1; m <= months; m++) {
+          balance = balance * (1 + monthlyRate) + monthlyDeposit;
+          totalContributed += monthlyDeposit;
+          if (monthsToGoal === -1 && balance >= target) {
+            monthsToGoal = m;
+          }
+        }
+
+        var interest = balance - totalContributed;
+
+        // If not reached within the period, compute months to reach with same deposit
+        if (monthsToGoal === -1 && monthlyDeposit > 0) {
+          var b2 = balance;
+          var extraMonths = 0;
+          var cap = 1200; // 100-year safety cap
+          while (b2 < target && extraMonths < cap) {
+            b2 = b2 * (1 + monthlyRate) + monthlyDeposit;
+            extraMonths++;
+          }
+          if (b2 >= target) {
+            monthsToGoal = months + extraMonths;
+          }
+        }
+
+        // Render
+        document.getElementById("goal-final").textContent = formatMoney(balance, symbol);
+        document.getElementById("goal-final-sub").textContent =
+          "after " + formatNumber(years, 0) + " years at " + formatNumber(ratePct, 2) + "% AER";
+        document.getElementById("goal-contributed").textContent = formatMoney(totalContributed, symbol);
+        document.getElementById("goal-interest").textContent = formatMoney(interest, symbol);
+
+        var reachedEl = document.getElementById("goal-reached");
+        var reachedSubEl = document.getElementById("goal-reached-sub");
+        if (balance >= target) {
+          reachedEl.textContent = "Yes";
+          reachedEl.style.color = "var(--success)";
+          reachedSubEl.textContent = "balance exceeds target";
+        } else {
+          reachedEl.textContent = "Not yet";
+          reachedEl.style.color = "var(--warn)";
+          reachedSubEl.textContent = "short by " + formatMoney(target - balance, symbol);
+        }
+
+        var monthsEl = document.getElementById("goal-months");
+        if (monthsToGoal > 0) {
+          var yrs = Math.floor(monthsToGoal / 12);
+          var mos = monthsToGoal % 12;
+          monthsEl.textContent = monthsToGoal + " months";
+          monthsEl.title = (yrs > 0 ? yrs + "y " : "") + mos + "m";
+        } else {
+          monthsEl.textContent = "60+ years";
+        }
+
+        document.getElementById("results-goal").hidden = false;
+      });
+
+      /* ====================================================
+         TAB 2: COMPOUND INTEREST
+         ==================================================== */
+      var formCompound = document.getElementById("form-compound");
+
+      bindPrefix("comp-currency", [
+        "comp-initial-prefix",
+        "comp-monthly-prefix"
+      ]);
+
+      formCompound.addEventListener("submit", function(e) {
+        e.preventDefault();
+        clearStatus("status-compound");
+
+        var currencySelect = document.getElementById("comp-currency");
+        var symbol = getSymbol(currencySelect);
+
+        var initial = parseInput(document.getElementById("comp-initial"));
+        var monthly = parseInput(document.getElementById("comp-monthly"));
+        var years = parseInput(document.getElementById("comp-years"));
+        var ratePct = parseInput(document.getElementById("comp-rate"));
+
+        if (isNaN(initial)) initial = 0;
+        if (isNaN(monthly)) monthly = 0;
+        if (isNaN(ratePct)) ratePct = 0;
+
+        if (isNaN(years) || years <= 0) {
+          showStatus("status-compound", "Please enter a number of years greater than zero.", "error");
+          return;
+        }
+        if (initial < 0 || monthly < 0) {
+          showStatus("status-compound", "Amounts cannot be negative.", "error");
+          return;
+        }
+        if (initial === 0 && monthly === 0) {
+          showStatus("status-compound", "Enter an initial amount or a monthly contribution.", "warn");
+          return;
+        }
+        if (ratePct < 0 || ratePct > 30) {
+          showStatus("status-compound", "Expected return must be between 0 and 30%.", "error");
+          return;
+        }
+
+        var months = Math.round(years * 12);
+        var monthlyRate = ratePct / 100 / 12;
+
+        // FV = P(1+r)^n + PMT * (((1+r)^n - 1) / r)
+        var growthFactor = Math.pow(1 + monthlyRate, months);
+        var fvInitial = initial * growthFactor;
+        var fvContributions;
+        if (monthlyRate === 0) {
+          fvContributions = monthly * months;
+        } else {
+          fvContributions = monthly * ((growthFactor - 1) / monthlyRate);
+        }
+        var finalValue = fvInitial + fvContributions;
+        var totalContributed = initial + monthly * months;
+        var interest = finalValue - totalContributed;
+        var multiple = totalContributed > 0 ? finalValue / totalContributed : 0;
+
+        // Effective annual return (with monthly compounding)
+        var effectiveAnnual = (Math.pow(1 + monthlyRate, 12) - 1) * 100;
+
+        document.getElementById("comp-final").textContent = formatMoney(finalValue, symbol);
+        document.getElementById("comp-final-sub").textContent =
+          "after " + formatNumber(years, 0) + " years at " + formatNumber(ratePct, 2) + "%";
+        document.getElementById("comp-contributed").textContent = formatMoney(totalContributed, symbol);
+        document.getElementById("comp-interest").textContent = formatMoney(interest, symbol);
+        document.getElementById("comp-multiple").textContent = formatNumber(multiple, 2) + "×";
+        document.getElementById("comp-effective").textContent = formatNumber(effectiveAnnual, 2) + "%";
+
+        document.getElementById("results-compound").hidden = false;
+      });
+
+      /* ====================================================
+         TAB 3: DIVIDEND INCOME
+         ==================================================== */
+      var formDividend = document.getElementById("form-dividend");
+
+      bindPrefix("div-currency", [
+        "div-investment-prefix"
+      ]);
+
+      formDividend.addEventListener("submit", function(e) {
+        e.preventDefault();
+        clearStatus("status-dividend");
+
+        var currencySelect = document.getElementById("div-currency");
+        var symbol = getSymbol(currencySelect);
+
+        var investment = parseInput(document.getElementById("div-investment"));
+        var yieldPct = parseInput(document.getElementById("div-yield"));
+        var growthPct = parseInput(document.getElementById("div-growth"));
+        var years = parseInput(document.getElementById("div-years"));
+
+        if (isNaN(growthPct)) growthPct = 0;
+        if (isNaN(years)) years = 0;
+
+        if (isNaN(investment) || investment <= 0) {
+          showStatus("status-dividend", "Please enter an investment amount greater than zero.", "error");
+          return;
+        }
+        if (isNaN(yieldPct) || yieldPct < 0 || yieldPct > 20) {
+          showStatus("status-dividend", "Dividend yield must be between 0 and 20%.", "error");
+          return;
+        }
+        if (growthPct < 0 || growthPct > 20) {
+          showStatus("status-dividend", "Dividend growth must be between 0 and 20%.", "error");
+          return;
+        }
+
+        var year1Annual = investment * (yieldPct / 100);
+        var monthly = year1Annual / 12;
+        var quarterly = year1Annual / 4;
+
+        // Project growth
+        var yearsInt = Math.floor(years);
+        var futureAnnual = year1Annual;
+        var totalDividends = 0;
+        if (yearsInt > 0) {
+          var current = year1Annual;
+          for (var i = 0; i < yearsInt; i++) {
+            totalDividends += current;
+            current = current * (1 + growthPct / 100);
+          }
+          // current is now the year (yearsInt + 1) payout — that's "future" income
+          futureAnnual = current;
+        } else {
+          futureAnnual = year1Annual;
+          totalDividends = year1Annual;
+        }
+
+        document.getElementById("div-annual").textContent = formatMoney(year1Annual, symbol);
+        document.getElementById("div-annual-sub").textContent =
+          formatMoney(investment, symbol) + " at " + formatNumber(yieldPct, 2) + "% yield";
+        document.getElementById("div-monthly").textContent = formatMoney(monthly, symbol);
+        document.getElementById("div-quarterly").textContent = formatMoney(quarterly, symbol);
+        document.getElementById("div-future").textContent = formatMoney(futureAnnual, symbol);
+        document.getElementById("div-future-sub").textContent =
+          "year " + (yearsInt + 1) + " payout at " + formatNumber(growthPct, 2) + "% annual growth";
+        document.getElementById("div-total").textContent = formatMoney(totalDividends, symbol);
+
+        document.getElementById("results-dividend").hidden = false;
+      });
+
+      /* ====================================================
+         RESET BUTTONS
+         ==================================================== */
+      document.querySelectorAll("[data-reset]").forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          var which = this.getAttribute("data-reset");
+          var formId = "form-" + which;
+          var form = document.getElementById(formId);
+          if (form) {
+            form.reset();
+            // Restore defaults where we had them
+            if (which === "goal") {
+              document.getElementById("goal-rate").value = "4.5";
+              document.getElementById("goal-start").value = "0";
+              document.getElementById("results-goal").hidden = true;
+              clearStatus("status-goal");
+            } else if (which === "compound") {
+              document.getElementById("comp-rate").value = "7";
+              document.getElementById("results-compound").hidden = true;
+              clearStatus("status-compound");
+            } else if (which === "dividend") {
+              document.getElementById("div-yield").value = "4.3";
+              document.getElementById("div-growth").value = "3";
+              document.getElementById("div-years").value = "10";
+              document.getElementById("results-dividend").hidden = true;
+              clearStatus("status-dividend");
+            }
+            // Re-apply prefix symbols
+            document.querySelectorAll("[id$='-currency']").forEach(function(sel) {
+              sel.dispatchEvent(new Event("change"));
+            });
+          }
+        });
+      });
+
+      /* ====================================================
+         INITIAL STATE
+         ==================================================== */
+      // Prefixes are set by bindPrefix on load.
+      // Hide all results initially.
+      document.getElementById("results-goal").hidden = true;
+      document.getElementById("results-compound").hidden = true;
+      document.getElementById("results-dividend").hidden = true;
+
+    })();
+  </script>
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Money Printer Turbo",
+    "description": "A free savings and investment calculator for UK, US, and Canadian users. Work out savings goals, compound interest, and dividend income.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "Savings goal calculator",
+      "Compound interest calculator",
+      "Dividend income calculator",
+      "Support for GBP, USD, CAD, EUR",
+      "No sign-up, runs in the browser"
+    ]
+  }
+  </script>
+</body>
+</html>
